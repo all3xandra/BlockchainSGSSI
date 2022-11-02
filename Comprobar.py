@@ -25,6 +25,8 @@ def rdn_hex_gen():
 def comprobar(file1, file2):
 
     print("Se comparan los ficheros ", file1, " y ", file2, "...\n")
+
+    # Se define una variable que indica cuántos requisitos cumple el fichero
     aprob = 0
 
     f1 = open(file1, 'r')
@@ -47,10 +49,12 @@ def comprobar(file1, file2):
     cont = 0
     i = 0
 
+    # Se cuenta el número de ceros que hay al principio del hash.
     while(i < (len(sha) - 1) and sha[i] == '0'):
         cont = cont + 1
         i = i + 1
 
+    # Se comprueba que hay al menos 3 ceros.
     print("\nComprobando ficheros...")
     if(cont >= 3):
         aprob += 1
@@ -60,7 +64,9 @@ def comprobar(file1, file2):
 
     f1.close()
     f2.close()
-    return aprob
+
+    # Si se cumplen los dos requisitos, se devuelve True.
+    return aprob==2
 
 if __name__ == '__main__':
     f1 = sys.argv[1]
