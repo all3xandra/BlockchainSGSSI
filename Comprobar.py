@@ -50,7 +50,4 @@ if __name__ == '__main__':
     f1 = sys.argv[1]
     f2 = sys.argv[2]
 
-    aprob = comprobar(f1, f2)
-
-    print("¡CORRECTO!") if aprob else print("¡INCORRECTO!")
-
+    print("¡CORRECTO!") if comprobar(f1, f2) else print("¡INCORRECTO!")
