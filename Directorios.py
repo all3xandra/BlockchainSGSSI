@@ -1,24 +1,5 @@
-import hashlib, sys, Comprobar, os
+import sys, Comprobar, Hash, os
 from pathlib import Path
-
-def sha256gen(filename):
-
-    b = False
-
-    while (not b):
-
-        try:
-            sha256_hash = hashlib.sha256()
-            with open(filename,"rb") as f:
-                for byte_block in iter(lambda: f.read(4096),b""):
-                    sha256_hash.update(byte_block)
-                sha256 = sha256_hash.hexdigest()
-            b = True
-        except:
-            print("Error. Comprueba la ruta del fichero.")
-            filename = input("Inserta el nombre del fichero: ")
-           
-    return sha256
 
 def directorios(f1, directory):
 
@@ -41,10 +22,10 @@ def directorios(f1, directory):
             path = directory + "/" + item.name
             # Se comprueba que el fichero cumple los requisitos.
             if(Comprobar.comprobar(f1, path)):
-                sha256 = sha256gen(path)
+                sha256 = Hash.sha256gen(path)
                 # Se añaden a la lista de ficheros el nombre del fichero y el hash del mismo, bajo el modelo de un diccionario (equivalente a HashMap).
                 files.append(dict(name=item.name, sha256=sha256))
-                print("\nFichero ", item.name, " añadido a la lista de ficheros.\n")
+                print("Fichero ", item.name, " añadido a la lista de ficheros.\n")
 
     # Se busca el primer fichero cuyo hash empiece por la cadena más larga de ceros.
     contaux = 0
@@ -63,6 +44,8 @@ def directorios(f1, directory):
 
     print("\nEl fichero con más ceros es ", fileZero, " con ", contaux, " ceros.\n")
 
+    # Se devuelve un diccionario conteniendo la lista de ficheros que cumplen los requisitos
+    # y el nombre del primer fichero cuyo hash empieza por la cadena más larga de ceros.
     return dict(ficheros=files, fichero_mas_ceros=fileZero)
 
 if __name__ == '__main__':

@@ -1,72 +1,47 @@
-import hashlib, secrets, sys
-def sha256gen(filename):
-
-    b = False
-
-    while (not b):
-
-        try:
-            sha256_hash = hashlib.sha256()
-            with open(filename,"rb") as f:
-                for byte_block in iter(lambda: f.read(4096),b""):
-                    sha256_hash.update(byte_block)
-                sha256 = sha256_hash.hexdigest()
-            b = True
-        except:
-            print("Error. Comprueba la ruta del fichero.")
-            filename = input("Inserta el nombre del fichero: ")
-           
-    return sha256
-
-def rdn_hex_gen():
-
-    return secrets.token_hex(4) + " G26"
+import sys, Hash, re
 
 def comprobar(file1, file2):
 
     print("Se comparan los ficheros ", file1, " y ", file2, "...\n")
-
-    # Se define una variable que indica cuántos requisitos cumple el fichero
-    aprob = 0
 
     f1 = open(file1, 'r')
     f2 = open(file2, 'r')
 
     t1 = f1.readlines()
     t2 = f2.readlines()
+
+    # Se comprueba que la última línea cumple con las características especificadas
+    # para las actividades anteriores
+    last_line = re.match("[a-f0-9]{8} G([0-9]{2})+", t2[-1])
+
     # No se comprueba la última linea porque contiene el código randomizado. Se trata de comprobar que el resto de líneas son iguales.
     t2 = t2[0:len(t2)-1]
-    
-    print("Comprobando ficheros...")
-    if t1 == t2:
-        aprob += 1
-        print("Contenido igual.")
-    else:
-        print("Contenido distinto.")
-    
-    sha = sha256gen(file2)
+
+    sha = Hash.sha256gen(file2)
 
     cont = 0
-    i = 0
 
     # Se cuenta el número de ceros que hay al principio del hash.
-    while(i < (len(sha) - 1) and sha[i] == '0'):
+    while(cont < (len(sha) - 1) and sha[cont] == '0'):
         cont = cont + 1
-        i = i + 1
 
-    # Se comprueba que hay al menos 3 ceros.
-    print("\nComprobando ficheros...")
-    if(cont >= 3):
-        aprob += 1
-        print("Segundo fichero con hash correcto.")
+    aprob = False
+    if(t1 != t2):
+        print("Contenido distinto.\n")
+    elif(cont < 3):
+        print("Segundo fichero con hash incorrecto.\n")
+    elif(not bool(last_line)):
+        print("Segundo fichero con código randomizado incorrecto.\n")
     else:
-        print("Segundo fichero con hash incorrecto.")
+        print("El fichero ", file2, " cumple los requisitos.\n")
+        aprob = True
+        
 
     f1.close()
     f2.close()
 
     # Si se cumplen los dos requisitos, se devuelve True.
-    return aprob==2
+    return aprob
 
 if __name__ == '__main__':
     f1 = sys.argv[1]
@@ -74,7 +49,5 @@ if __name__ == '__main__':
 
     aprob = comprobar(f1, f2)
 
-    if(aprob == 2):
-        print("\n¡CORRECTO!")
-    else:
-        print("\n¡INCORRECTO!")
+    print("¡CORRECTO!") if aprob else print("¡INCORRECTO!")
+
