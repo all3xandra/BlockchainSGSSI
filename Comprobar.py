@@ -25,17 +25,20 @@ def comprobar(file1, file2):
     while(cont < (len(sha) - 1) and sha[cont] == '0'):
         cont = cont + 1
 
-    aprob = False
+    aprob = True
+
     if(t1 != t2):
+        aprob = False
         print("Contenido distinto.\n")
-    elif(cont < 3):
+    if(cont < 3):
+        aprob = False
         print("Segundo fichero con hash incorrecto.\n")
-    elif(not bool(last_line)):
+    if(not bool(last_line)):
+        aprob = False
         print("Segundo fichero con código randomizado incorrecto.\n")
-    else:
+
+    if(aprob):
         print("El fichero ", file2, " cumple los requisitos.\n")
-        aprob = True
-        
 
     f1.close()
     f2.close()
