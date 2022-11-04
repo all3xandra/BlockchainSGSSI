@@ -10,11 +10,9 @@ def directorios(f1, directory):
 
     # Se recorren todos los ficheros del directorio.
     files_in_basepath = (entry for entry in basepath.iterdir() if entry.is_file())
-    n_of_files = 0
 
     # Se recorren los ficheros dentro del directorio.
     for item in files_in_basepath:
-        n_of_files += 1
         # Se comprueba que el fichero no es el original.
         if item.name == f1:
             print("El fichero ", f1, " ya existe en el directorio ", directory)
