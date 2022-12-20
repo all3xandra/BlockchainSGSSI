@@ -12,7 +12,7 @@ def comprobar(file1, file2):
 
     # Se comprueba que la última línea cumple con las características especificadas
     # para las actividades anteriores
-    last_line = re.match("[a-f0-9]{8} G([0-9]{2})+", t2[-1])
+    last_line = re.match("[a-f0-9]{8} G([0-9a-f]{3})+", t2[-1])
 
     # No se comprueba la última linea porque contiene el código randomizado. Se trata de comprobar que el resto de líneas son iguales.
     t2 = t2[0:len(t2)-1]
