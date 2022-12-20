@@ -22,7 +22,7 @@ def sha256gen(filename):
 
 def rdn_hex_gen():
 
-    return secrets.token_hex(4) + " G26"
+    return secrets.token_hex(4) + " G3ce"
 
 if __name__ == '__main__':
 
@@ -30,9 +30,9 @@ if __name__ == '__main__':
     s = ""
 
     out_dir = f
-    out_dir = out_dir.replace(".txt", ".APEL.txt")
+    out_dir = out_dir.replace(".txt", ".3ce.txt")
 
-    print("El primero fichero de salida será ", out_dir)
+    print("El fichero de salida será ", out_dir)
 
     with open(f, 'r') as fp:
         txt = fp.read()
